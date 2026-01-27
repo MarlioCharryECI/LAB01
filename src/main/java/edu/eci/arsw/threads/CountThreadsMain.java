@@ -24,6 +24,7 @@ public class CountThreadsMain {
         for (Thread t : threads) {
             t.start();
         }
+        System.out.println("Todos los hilos terminaron");
 
         waitForThreads(threads);
 
