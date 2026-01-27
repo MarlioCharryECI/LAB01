@@ -21,6 +21,10 @@
 	2. Inicie los tres hilos con 'start()'.
 	3. Ejecute y revise la salida por pantalla. 
 	4. Cambie el incio con 'start()' por 'run()'. Cómo cambia la salida?, por qué?.
+   
+
+   RTA/: Al usar run() en lugar de start(), la salida se vuelve ordenada y secuencial, porque no se crean hilos nuevos: el método run() se ejecuta en el hilo main.
+	   Con start(), los hilos se ejecutan en paralelo y la salida es intercalada y no determinista.
 
 **Parte II - Ejercicio Black List Search**
 
