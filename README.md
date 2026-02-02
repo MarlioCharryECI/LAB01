@@ -82,8 +82,19 @@ Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tie
 
 ![img.png](img/TiemposEnMs.png)
 Los resultados muestran una mejora significativa al pasar de ejecución secuencial a paralela, evidenciando que el problema es altamente paralelizable. El mejor balance entre tiempo y uso de recursos se obtiene cuando el número de hilos es cercano al número de núcleos del procesador. Al incrementar excesivamente el número de hilos, el tiempo de ejecución disminuye debido a que las ocurrencias se encuentran más rápido y se activa la terminación anticipada, pero esto incrementa el consumo de CPU y memoria, como se observó en VisualVM. Esto demuestra que un mayor número de hilos no siempre implica una solución más eficiente en términos de recursos.
-![img.png](ActividadCPU.png)
-![img.png](ActividadMemoria.png)
+## Resumen de resultados
+
+| Hilos | Listas revisadas     | Tiempo (ms) |
+|------:|----------------------|------------:|
+| 1     | 70.501 / 80.000      | 106.401     |
+| 16    | 16.014 / 80.000      | 1.314       |
+| 32    | 31.912 / 80.000      | 1.313       |
+| 50    | 49.985 / 80.000      | 1.331       |
+| 100   | 60.037 / 80.000      | 854         |
+| 1000  | 62.813 / 80.000      | 265         |
+
+![img.png](img/ActividadCPU.png)
+![img.png](img/ActividadMemoria.png)
 Durante la ejecución de PerformanceMain se usó VisualVM para revisar el uso de CPU y memoria.
 
 En la gráfica de CPU, el consumo se mantiene casi siempre en 0%, con algunos picos muy pequeños. Esto pasa porque las tareas que realiza el programa son muy rápidas, así que VisualVM no alcanza a mostrar diferencias claras entre los distintos números de hilos.
@@ -91,15 +102,20 @@ En la gráfica de CPU, el consumo se mantiene casi siempre en 0%, con algunos pi
 En cuanto a la memoria, se observa que el heap usado va creciendo de forma gradual, mientras que el tamaño máximo se mantiene estable. No se ven liberaciones grandes de memoria, lo que indica que los objetos creados durante la ejecución permanecen activos y no se activan ciclos fuertes de garbage collection.
 
 En general, no se aprecian diferencias grandes en VisualVM porque las ejecuciones son cortas y la carga es baja. Por eso, el impacto del paralelismo se nota mejor en los tiempos de ejecución medidos, más que en las gráficas de CPU y memoria.
+
+
 **Parte IV - Ejercicio Black List Search**
 
 1. Según la [ley de Amdahls](https://www.pugetsystems.com/labs/articles/Estimating-CPU-Performance-using-Amdahls-Law-619/#WhatisAmdahlsLaw?):
 
 	![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?. 
-
+	
+RTA/: Aunque la ley de Amdahl dice que entre más hilos haya, mejor debería ser el rendimiento, en la práctica esto no siempre pasa. Con 500 hilos, el programa pierde mucho tiempo creando, coordinando y cambiando entre hilos, en lugar de hacer trabajo útil. Esa sobrecarga hace que el rendimiento baje. Con 200 hilos, todavía hay bastante paralelismo, pero menos costo de gestión, así que el desempeño termina siendo mejor que con 500.
 2. Cómo se comporta la solución usando tantos hilos de procesamiento como núcleos comparado con el resultado de usar el doble de éste?.
+
+RTA/: Cuando se usan tantos hilos como núcleos del procesador, el programa aprovecha bien el hardware porque cada hilo puede ejecutarse al mismo tiempo. En cambio, al usar el doble de hilos, el sistema tiene que estar cambiando constantemente entre ellos, lo que genera sobrecarga y no trae una mejora real en el tiempo de ejecución.
 
 3. De acuerdo con lo anterior, si para este problema en lugar de 100 hilos en una sola CPU se pudiera usar 1 hilo en cada una de 100 máquinas hipotéticas, la ley de Amdahls se aplicaría mejor?. Si en lugar de esto se usaran c hilos en 100/c máquinas distribuidas (siendo c es el número de núcleos de dichas máquinas), se mejoraría?. Explique su respuesta.
 
-
+RTA/: Sí, en teoría funcionaría mejor. Usar 1 hilo en cada una de 100 máquinas permite un paralelismo más real, ya que no hay competencia por la CPU como en una sola máquina. Si se usan c hilos en 100/c máquinas, el rendimiento dependerá de cuántos núcleos tenga cada máquina y de qué tan bien se reparta el trabajo. En general, distribuir el procesamiento ayuda a superar las limitaciones de una sola CPU y permite escalar mejor el sistema.
 
