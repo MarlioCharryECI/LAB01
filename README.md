@@ -65,6 +65,7 @@ Para 'refactorizar' este código, y hacer que explote la capacidad multi-núcleo
 
 La estrategia de paralelismo antes implementada es ineficiente en ciertos casos, pues la búsqueda se sigue realizando aún cuando los N hilos (en su conjunto) ya hayan encontrado el número mínimo de ocurrencias requeridas para reportar al servidor como malicioso. Cómo se podría modificar la implementación para minimizar el número de consultas en estos casos?, qué elemento nuevo traería esto al problema?
 
+RTA/: Para reducir el número de consultas, se puede hacer que la búsqueda se detenga tan pronto como, entre todos los hilos, se alcance el número mínimo de ocurrencias requerido. Para esto, los hilos comparten un contador global y una condición de parada que les permite saber cuándo ya no es necesario seguir buscando. Así se evita continuar consultando listas negras innecesarias y se mejora el tiempo de ejecución, especialmente cuando las coincidencias aparecen temprano. Sin embargo, esto agrega un nuevo reto al problema, que es la sincronización entre hilos, ya que ahora existe información compartida que debe manejarse correctamente para evitar errores por condiciones de carrera.
 **Parte III - Evaluación de Desempeño**
 
 A partir de lo anterior, implemente la siguiente secuencia de experimentos para realizar las validación de direcciones IP dispersas (por ejemplo 202.24.34.55), tomando los tiempos de ejecución de los mismos (asegúrese de hacerlos en la misma máquina):
