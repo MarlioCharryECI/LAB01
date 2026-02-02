@@ -80,6 +80,17 @@ Al iniciar el programa ejecute el monitor jVisualVM, y a medida que corran las p
 
 Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tiempo de solución vs. número de hilos. Analice y plantee hipótesis con su compañero para las siguientes preguntas (puede tener en cuenta lo reportado por jVisualVM):
 
+![img.png](img/TiemposEnMs.png)
+Los resultados muestran una mejora significativa al pasar de ejecución secuencial a paralela, evidenciando que el problema es altamente paralelizable. El mejor balance entre tiempo y uso de recursos se obtiene cuando el número de hilos es cercano al número de núcleos del procesador. Al incrementar excesivamente el número de hilos, el tiempo de ejecución disminuye debido a que las ocurrencias se encuentran más rápido y se activa la terminación anticipada, pero esto incrementa el consumo de CPU y memoria, como se observó en VisualVM. Esto demuestra que un mayor número de hilos no siempre implica una solución más eficiente en términos de recursos.
+![img.png](ActividadCPU.png)
+![img.png](ActividadMemoria.png)
+Durante la ejecución de PerformanceMain se usó VisualVM para revisar el uso de CPU y memoria.
+
+En la gráfica de CPU, el consumo se mantiene casi siempre en 0%, con algunos picos muy pequeños. Esto pasa porque las tareas que realiza el programa son muy rápidas, así que VisualVM no alcanza a mostrar diferencias claras entre los distintos números de hilos.
+
+En cuanto a la memoria, se observa que el heap usado va creciendo de forma gradual, mientras que el tamaño máximo se mantiene estable. No se ven liberaciones grandes de memoria, lo que indica que los objetos creados durante la ejecución permanecen activos y no se activan ciclos fuertes de garbage collection.
+
+En general, no se aprecian diferencias grandes en VisualVM porque las ejecuciones son cortas y la carga es baja. Por eso, el impacto del paralelismo se nota mejor en los tiempos de ejecución medidos, más que en las gráficas de CPU y memoria.
 **Parte IV - Ejercicio Black List Search**
 
 1. Según la [ley de Amdahls](https://www.pugetsystems.com/labs/articles/Estimating-CPU-Performance-using-Amdahls-Law-619/#WhatisAmdahlsLaw?):
