@@ -83,6 +83,11 @@ Al iniciar el programa ejecute el monitor jVisualVM, y a medida que corran las p
 Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tiempo de solución vs. número de hilos. Analice y plantee hipótesis con su compañero para las siguientes preguntas (puede tener en cuenta lo reportado por jVisualVM):
 
 ![img.png](img/TiemposEnMs.png)
+
+Al probar el codigo en java en otro computador con menos procesadores y rendimiento, se obtuvieron estos resultados:
+![img.png](img/TiemposConMenosRecursos.png)
+Se ve un incremento significativo en los tiempos, duplicando el tiempo necesario promedio en cada busqueda.
+
 Los resultados muestran una mejora significativa al pasar de ejecución secuencial a paralela, evidenciando que el problema es altamente paralelizable. El mejor balance entre tiempo y uso de recursos se obtiene cuando el número de hilos es cercano al número de núcleos del procesador. Al incrementar excesivamente el número de hilos, el tiempo de ejecución disminuye debido a que las ocurrencias se encuentran más rápido y se activa la terminación anticipada, pero esto incrementa el consumo de CPU y memoria, como se observó en VisualVM. Esto demuestra que un mayor número de hilos no siempre implica una solución más eficiente en términos de recursos.
 ## Resumen de resultados
 
@@ -105,7 +110,11 @@ En cuanto a la memoria, se observa que el heap usado va creciendo de forma gradu
 
 En general, no se aprecian diferencias grandes en VisualVM porque las ejecuciones son cortas y la carga es baja. Por eso, el impacto del paralelismo se nota mejor en los tiempos de ejecución medidos, más que en las gráficas de CPU y memoria.
 
+Por otro lado, se probó hacer un ejercicio similar utilizando el lenguaje go, se obtuvieron estos resultados:
+![img.png](img.png)
+![RendimientoGo.png](../../Downloads/RendimientoGo.png)
 
+A pesar de no ser exactamente la misma busqueda, es un buen ejemplo de como la manera en la que en el lenguaje de Go se manejan los hilos, mejoran el rendimiento y tiempo de ejecucion de tareas pesadas de búsqueda o de uso e hilos.
 **Parte IV - Ejercicio Black List Search**
 
 1. Según la [ley de Amdahls](https://www.pugetsystems.com/labs/articles/Estimating-CPU-Performance-using-Amdahls-Law-619/#WhatisAmdahlsLaw?):
