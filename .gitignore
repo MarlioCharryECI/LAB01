@@ -1,2 +1,65 @@
-target
+# ========================
+# Go
+# ========================
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binaries
+*.test
+
+# Go workspace
+go.work
+go.work.sum
+
+# Coverage
+coverage.out
+coverage.txt
+*.coverprofile
+
+# Build output
+bin/
+dist/
+
+# ========================
+# Go modules
+# ========================
+go.sum
+
+# ========================
+# IDEs / Editors
+# ========================
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# IntelliJ / GoLand
+.idea/
+
+# ========================
+# OS files
+# ========================
+# macOS
 .DS_Store
+
+# Linux
+*~
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# ========================
+# Logs
+# ========================
+*.log
+
+# ========================
+# Temporary files
+# ========================
+tmp/
+temp/
