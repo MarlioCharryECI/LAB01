@@ -3,6 +3,8 @@
 ### Arquitecturas de Software - ARSW
 ## Ejercicio Introducción al paralelismo - Hilos - Caso BlackListSearch
 
+## Marlio Jose Charry Espitia
+
 
 ### Dependencias:
 ####   Lecturas:
